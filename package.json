@@ -1,7 +1,8 @@
 {
-  "name": "big_commerce_migration_tool",
+  "name": "big-commerce-migration-tool",
   "version": "0.1.0",
   "private": true,
+  "description": "A tool to help migrate data to BigCommerce",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

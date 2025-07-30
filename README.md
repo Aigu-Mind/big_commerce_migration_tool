@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BigCommerce Migration Tool
+
+A Next.js application designed to help migrate data to BigCommerce.
 
 ## Getting Started
 
@@ -16,21 +18,36 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Clean, modern UI built with Next.js and Tailwind CSS
+- Ready for BigCommerce migration functionality
+- Responsive design
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 15
+- React 19
+- Tailwind CSS 4
+- TypeScript (can be added if needed)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/
+│   ├── globals.css      # Global styles
+│   ├── layout.js        # Root layout
+│   └── page.js          # Home page
+├── components/          # React components (to be added)
+├── lib/                 # Utility functions (to be added)
+└── types/               # TypeScript types (to be added)
+```
 
-## Deploy on Vercel
+## Next Steps
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Add BigCommerce API integration
+2. Create migration configuration forms
+3. Implement data validation
+4. Add progress tracking
+5. Set up error handling
