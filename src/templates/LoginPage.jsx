@@ -1,5 +1,11 @@
 'use client'
+
+import { useParams } from "next/navigation";
+
 export default function LoginPage() {
+  const params = useParams();
+  const storeHash = params.storeHash
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background elements */}
