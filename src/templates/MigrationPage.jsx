@@ -136,7 +136,8 @@ export default function MigrationPage() {
         throw error;
       }
 
-      if (response?.data) {
+      if (response) {
+        console.log('response?.data', response);
         // Convert API response headers to the format expected by the UI
         const apiHeaders = response.data.headers.map((header, index) => ({
           id: `header_${index}`,
