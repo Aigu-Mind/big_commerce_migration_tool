@@ -2,6 +2,9 @@
 
 import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import useAxios from '@/interceptor/axiosInterceptor'
+import RenderToast from '@/components/RenderToast'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 const PLATFORMS = [
   { id: 'shopify', name: 'Shopify', img: 'https://cdn.worldvectorlogo.com/logos/shopify.svg' },
@@ -19,22 +22,14 @@ export default function MigrationPage() {
   const [csvHeaders, setCsvHeaders] = useState([])
   const [draggedItem, setDraggedItem] = useState(null)
   const [mappings, setMappings] = useState({})
+  const [isUploading, setIsUploading] = useState(false)
   const fileInputRef = useRef()
   const scrollContainerRef = useRef()
 
-  // Dummy headers for after upload
-  const DUMMY_HEADERS = [
-    { id: 'product_name', label: 'Product Name', preview: 'iPhone 15 Pro Max' },
-    { id: 'sku', label: 'SKU', preview: 'IPH15PM-256-BLK' },
-    { id: 'price', label: 'Price', preview: '$1,199.00' },
-    { id: 'description', label: 'Description', preview: 'Latest iPhone with advanced features...' },
-    { id: 'category', label: 'Category', preview: 'Electronics > Phones' },
-    { id: 'brand', label: 'Brand', preview: 'Apple' },
-    { id: 'weight', label: 'Weight', preview: '221g' },
-    { id: 'dimensions', label: 'Dimensions', preview: '159.9 x 77.6 x 8.25mm' },
-    { id: 'stock', label: 'Stock Quantity', preview: '45' },
-    { id: 'images', label: 'Image URLs', preview: 'https://example.com/iphone.jpg' }
-  ]
+  // API hooks
+  const { Post } = useAxios()
+
+
 
   // BigCommerce target fields grouped by category
   const bigCommerceFields = {
@@ -99,17 +94,76 @@ export default function MigrationPage() {
     const file = e.target.files[0]
     if (file) {
       setCsvFile(file)
-      setCsvHeaders(DUMMY_HEADERS)
+      setCsvHeaders([])
       setMappings({})
     }
   }
+  
   const handleDropCSV = (e) => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
     if (file) {
       setCsvFile(file)
-      setCsvHeaders(DUMMY_HEADERS)
+      setCsvHeaders([])
       setMappings({})
+    }
+  }
+
+  // Upload CSV to API
+  const uploadCSV = async () => {
+    if (!csvFile) {
+      RenderToast({
+        message: "Please select a CSV file first",
+        type: "warning"
+      });
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      
+      const formData = new FormData();
+      formData.append('csv', csvFile);
+
+      const { response, error } = await Post({
+        route: 'orders/upload-csv',
+        data: formData,
+        isFormData: true,
+        showAlert: false
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (response?.data) {
+        // Convert API response headers to the format expected by the UI
+        const apiHeaders = response.data.headers.map((header, index) => ({
+          id: `header_${index}`,
+          label: header,
+          preview: `Sample data for ${header}`
+        }));
+
+        setCsvHeaders(apiHeaders);
+        
+        RenderToast({
+          message: response.data.message || "CSV uploaded successfully",
+          type: "success"
+        });
+
+        // Auto-advance to step 3 after successful upload
+        setTimeout(() => {
+          setStep(3);
+        }, 1500);
+      }
+    } catch (error) {
+      console.error("Error uploading CSV:", error);
+      RenderToast({
+        message: error?.response?.data?.message || "Failed to upload CSV. Please try again.",
+        type: "error"
+      });
+    } finally {
+      setIsUploading(false);
     }
   }
 
@@ -118,7 +172,10 @@ export default function MigrationPage() {
   const goNext = () => setStep(s => Math.min(3, s + 1))
   const resetMapping = () => {
     setMappings({})
-    setCsvHeaders(DUMMY_HEADERS)
+    // Keep the current CSV headers from API response
+    if (csvHeaders.length > 0) {
+      setCsvHeaders(csvHeaders)
+    }
   }
 
   // Stepper UI
@@ -225,28 +282,59 @@ export default function MigrationPage() {
                 onDragOver={e => e.preventDefault()}
               >
                 <h1 className="text-3xl font-bold text-white mb-8 text-center">Upload Your CSV File</h1>
-                <div
-                  className="w-full flex flex-col items-center justify-center border-2 border-dashed border-purple-400 rounded-2xl bg-white/10 py-16 mb-6 cursor-pointer hover:bg-white/20 transition-all"
-                  onClick={() => fileInputRef.current.click()}
-                  onDrop={handleDropCSV}
-                  onDragOver={e => e.preventDefault()}
-                >
-                  <svg className="w-12 h-12 text-purple-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                  <span className="text-white font-medium">Drag & drop your CSV here, or <span className="underline">browse</span></span>
-                  <input
-                    type="file"
-                    accept=".csv"
-                    ref={fileInputRef}
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                </div>
-                {csvFile && (
-                  <div className="w-full bg-white/10 rounded-lg p-4 text-white text-center mb-4">
-                    <span className="font-semibold">{csvFile.name}</span>
+                
+                {isUploading ? (
+                  <div className="w-full flex flex-col items-center justify-center py-16">
+                    <LoadingSpinner size="lg" text="Uploading CSV..." />
                   </div>
+                ) : (
+                  <>
+                    <div
+                      className="w-full flex flex-col items-center justify-center border-2 border-dashed border-purple-400 rounded-2xl bg-white/10 py-16 mb-6 cursor-pointer hover:bg-white/20 transition-all"
+                      onClick={() => !isUploading && fileInputRef.current.click()}
+                      onDrop={handleDropCSV}
+                      onDragOver={e => e.preventDefault()}
+                    >
+                      <svg className="w-12 h-12 text-purple-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <span className="text-white font-medium">Drag & drop your CSV here, or <span className="underline">browse</span></span>
+                      <input
+                        type="file"
+                        accept=".csv"
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={handleFileChange}
+                        disabled={isUploading}
+                      />
+                    </div>
+                    
+                    {csvFile && (
+                      <div className="w-full bg-white/10 rounded-lg p-4 text-white text-center mb-6">
+                        <div className="flex items-center justify-center space-x-2 mb-4">
+                          <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span className="font-semibold">{csvFile.name}</span>
+                        </div>
+                        
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={uploadCSV}
+                          disabled={isUploading}
+                          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        >
+                          <div className="flex items-center justify-center space-x-2">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <span>Upload & Process CSV</span>
+                          </div>
+                        </motion.button>
+                      </div>
+                    )}
+                  </>
                 )}
               </motion.div>
             )}

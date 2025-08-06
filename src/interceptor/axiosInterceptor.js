@@ -1,15 +1,16 @@
 "use client";
 import axios from "axios";
 import momentTimezone from "moment-timezone";
-import { useDispatch, useSelector } from "react-redux";
-import RenderToast from "@/component/atoms/RenderToast";
-import { BaseURL } from "@/resources/utils/helper";
+// import { useDispatch, useSelector } from "react-redux";
+import RenderToast from "@/components/RenderToast";
+import { BaseURL } from "@/resources/helper";
 
 const useAxios = () => {
-  const dispatch = useDispatch();
-  const { accessToken, refreshToken } = useSelector(
-    (state) => state.authReducer
-  );
+  // const dispatch = useDispatch();
+  // const { accessToken, refreshToken } = useSelector(
+  //   (state) => state.authReducer
+  // );
+  const accessToken = ""
 
   const getErrorMsg = (error = null) => {
     if (error?.message === "Network Error") {

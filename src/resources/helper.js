@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 // import useAxios from "@/interceptor/axiosInterceptor";
 import moment from "moment-timezone";
-import { config } from "../../config";
+import { config } from "@/config";
 // import { apiHeader } from "../../config/apiUrl";
 
 export const API_URL = config.apiBaseURL;
@@ -44,7 +44,7 @@ export const apiHeader = (token, isFormData) => {
     };
   }
 };
-export const BaseURL = (link) => `${API_URL}/api/v1/${link}`;
+export const BaseURL = (link) => `${API_URL}/${link}`;
 export const MediaUrl = (url) => {
   if (!url) return "";
   if (url.startsWith("/")) return url;
