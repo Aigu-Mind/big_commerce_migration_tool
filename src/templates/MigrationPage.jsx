@@ -139,7 +139,7 @@ export default function MigrationPage() {
       if (response) {
         console.log('response?.data', response);
         // Convert API response headers to the format expected by the UI
-        const apiHeaders = response.data.headers.map((header, index) => ({
+        const apiHeaders = response?.headers.map((header, index) => ({
           id: `header_${index}`,
           label: header,
           preview: `Sample data for ${header}`
@@ -148,7 +148,7 @@ export default function MigrationPage() {
         setCsvHeaders(apiHeaders);
         
         RenderToast({
-          message: response.data.message || "CSV uploaded successfully",
+          message: response?.message || "CSV uploaded successfully",
           type: "success"
         });
 
