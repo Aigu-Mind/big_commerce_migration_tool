@@ -25,14 +25,6 @@ export default function LoginPage() {
     }
   }, [user, email, token, dispatch]);
 
-  // const { storeHash: storedStoreHash } = useSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   if (storeHash && storeHash !== storedStoreHash) {
-  //     dispatch(setStoreHash(storeHash));
-  //   }
-  // }, [storeHash, storedStoreHash, dispatch]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background elements */}
@@ -57,7 +49,7 @@ export default function LoginPage() {
             Migration Tool
           </h2>
           <p className="text-purple-200 text-lg font-medium">
-            Welcome back! Sign in to continue
+            Welcome, check your credentials
           </p>
         </div>
 
@@ -80,6 +72,7 @@ export default function LoginPage() {
                     name="email"
                     type="email"
                     autoComplete="email"
+                    value={email || ""}
                     required
                     className="block w-full pl-10 pr-3 py-4 border border-purple-300/30 rounded-xl bg-white/10 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
                     placeholder="Enter your email"
@@ -102,6 +95,7 @@ export default function LoginPage() {
                     name="username"
                     type="text"
                     autoComplete="username"
+                    value={user || ""}
                     required
                     className="block w-full pl-10 pr-3 py-4 border border-purple-300/30 rounded-xl bg-white/10 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
                     placeholder="Enter your username"
