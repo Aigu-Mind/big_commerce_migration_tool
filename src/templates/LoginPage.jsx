@@ -173,14 +173,14 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-center">
+        {/* <div className="text-center">
           <p className="text-purple-300 text-sm">
             Don't have an account?{' '}
             <a href="#" className="font-medium text-purple-200 hover:text-white transition-colors duration-200">
               Sign up here
             </a>
           </p>
-        </div>
+        </div> */}
       </div>
 
       <style jsx>{`
