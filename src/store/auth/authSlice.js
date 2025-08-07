@@ -7,6 +7,7 @@ const initialState = {
   userName: null,
   userEmail: null,
   storeHash: "",
+  user: null
 };
 
 const authSlice = createSlice({
