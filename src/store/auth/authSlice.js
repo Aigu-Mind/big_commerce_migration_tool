@@ -16,9 +16,10 @@ const authSlice = createSlice({
 
   reducers: {
     saveLoginUserData(state, action) {
-      state.user = action.payload?.user;
-      state.isLogin = true;
+      state.userName = action.payload?.userName;
+      state.userEmail = action.payload?.email;
       state.accessToken = action.payload?.token;
+      state.isLogin = true;
       state.refreshToken = action?.payload?.refreshToken;
     },
     updateUserData(state, action) {
