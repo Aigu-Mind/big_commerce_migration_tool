@@ -129,7 +129,7 @@ export default function LoginPage() {
                 type="submit"
                 className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                Sign In
+                Proceed
               </button>
             </div>
           </form>
