@@ -1,6 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import Providers from "../components/Providers";
 
 export const metadata = {
   title: "BigCommerce Migration Tool",
@@ -11,8 +12,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {/* <ToastContainer /> */}
-        {children}
+        <Providers>
+          {/* <ToastContainer /> */}
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ const initialState = {
   refreshToken: "",
   isLogin: false,
   user: null,
+  storeHash: "",
 };
 
 const authSlice = createSlice({
@@ -26,10 +27,14 @@ const authSlice = createSlice({
       state.refreshToken = "";
       state.isLogin = false;
       state.user = null;
+      state.storeHash = "";
     },
     updateJWTTokens(state, action) {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+    },
+    setStoreHash(state, action) {
+      state.storeHash = action.payload;
     },
   },
 });
@@ -39,6 +44,7 @@ export const {
   signOutRequest,
   updateUserData,
   updateJWTTokens,
+  setStoreHash,
 } = authSlice.actions;
 
 export default authSlice.reducer;

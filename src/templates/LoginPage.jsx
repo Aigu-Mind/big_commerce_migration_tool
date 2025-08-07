@@ -1,10 +1,21 @@
 'use client'
 
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setStoreHash } from "../store/auth/authSlice";
 
 export default function LoginPage() {
   const params = useParams();
-  const storeHash = params.storeHash
+  const storeHash = params.storeHash;
+  // const dispatch = useDispatch();
+  // const { storeHash: storedStoreHash } = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+  //   if (storeHash && storeHash !== storedStoreHash) {
+  //     dispatch(setStoreHash(storeHash));
+  //   }
+  // }, [storeHash, storedStoreHash, dispatch]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
