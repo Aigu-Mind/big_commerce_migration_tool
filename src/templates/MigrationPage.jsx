@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import useAxios from '@/interceptor/axiosInterceptor'
 import RenderToast from '@/components/RenderToast'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import { useSelector } from 'react-redux'
 
 const PLATFORMS = [
   { id: 'shopify', name: 'Shopify', img: 'https://cdn.worldvectorlogo.com/logos/shopify.svg' },
@@ -14,6 +15,9 @@ const PLATFORMS = [
 ]
 
 export default function MigrationPage() {
+  const { userName } = useSelector((state) => state.auth);
+  console.log('userName', userName)
+
   // Step state
   const [step, setStep] = useState(1)
   const [platform, setPlatform] = useState(null)

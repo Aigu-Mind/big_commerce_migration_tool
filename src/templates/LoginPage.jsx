@@ -7,8 +7,16 @@ import { setStoreHash } from "../store/auth/authSlice";
 
 export default function LoginPage() {
   const params = useParams();
-  const storeHash = params.storeHash;
-  // const dispatch = useDispatch();
+  const user = params?.user;
+  const email = params?.email;
+  const token = params?.token;
+
+  console.log('user',user);
+  console.log('email',email);
+  console.log('token',token);
+
+  const dispatch = useDispatch();
+
   // const { storeHash: storedStoreHash } = useSelector((state) => state.auth);
 
   // useEffect(() => {

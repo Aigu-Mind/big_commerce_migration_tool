@@ -4,7 +4,8 @@ const initialState = {
   accessToken: "",
   refreshToken: "",
   isLogin: false,
-  user: null,
+  userName: null,
+  userEmail: null,
   storeHash: "",
 };
 
