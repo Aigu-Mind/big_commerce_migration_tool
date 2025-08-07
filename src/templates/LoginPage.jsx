@@ -1,19 +1,21 @@
 'use client'
 
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setStoreHash } from "../store/auth/authSlice";
 
 export default function LoginPage() {
-  const params = useParams();
-  const user = params?.user;
-  const email = params?.email;
-  const token = params?.token;
+  const searchParams = useSearchParams();
+  const [user, email, token] = [
+    searchParams.get('name'),
+    searchParams.get('email'),
+    searchParams.get('token')
+  ];
 
-  console.log('user',user);
-  console.log('email',email);
-  console.log('token',token);
+  console.log('user', user);
+  console.log('email', email);
+  console.log('token', token);
 
   const dispatch = useDispatch();
 
