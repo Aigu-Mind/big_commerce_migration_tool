@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setStoreHash } from "../store/auth/authSlice";
+import { saveLoginUserData } from "../store/auth/authSlice";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
@@ -13,11 +13,17 @@ export default function LoginPage() {
     searchParams.get('token')
   ];
 
-  console.log('user', user);
-  console.log('email', email);
-  console.log('token', token);
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user && email && token) {
+      dispatch(saveLoginUserData({
+        userName: user,
+        email,
+        token
+      }));
+    }
+  }, [user, email, token, dispatch]);
 
   // const { storeHash: storedStoreHash } = useSelector((state) => state.auth);
 
