@@ -21,8 +21,8 @@ The following files have been added to enable deployment:
 - Improves build performance and security
 
 ### 4. Updated `package.json`
-- Modified start script to use `$PORT` environment variable
-- Enables dynamic port binding for containerized deployment
+- Modified start script to use port 3000
+- Consistent port configuration for containerized deployment
 
 ### 5. Updated `src/config/index.js`
 - Added environment variable support for configuration
@@ -40,7 +40,6 @@ The following environment variables can be configured:
 - `NEXT_PUBLIC_API_BASE_URL`: Base URL for API calls
 - `NEXT_PUBLIC_S3_BUCKET_URL`: S3 bucket URL for file uploads
 - `NEXT_PUBLIC_STRIPE_PUBLIC_KEY`: Stripe public key for payments
-- `PORT`: Port number for the application (automatically set by deployment platform)
 
 ## Deployment Steps
 
@@ -88,7 +87,7 @@ The migration tool has been configured to match the Aigumind website deployment 
 ## Troubleshooting
 
 1. **Build Issues:** Ensure all dependencies are properly listed in `package.json`
-2. **Port Issues:** Verify the `$PORT` environment variable is being passed correctly
+2. **Port Issues:** Verify the application is running on port 3000
 3. **API Issues:** Check that `NEXT_PUBLIC_API_BASE_URL` is set to the correct production URL
 4. **Environment Variables:** Ensure all required environment variables are configured in your deployment platform
 
