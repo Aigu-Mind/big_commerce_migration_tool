@@ -28,6 +28,11 @@ The following files have been added to enable deployment:
 - Added environment variable support for configuration
 - Makes the application more flexible for different environments
 
+### 6. `.github/workflows/deploy.yml`
+- GitHub Actions workflow for automated deployment
+- Deploys to CapRover on push to main branch
+- Uses CapRover CLI for deployment
+
 ## Environment Variables
 
 The following environment variables can be configured:
@@ -49,19 +54,28 @@ The following environment variables can be configured:
    docker run -p 3000:3000 big-commerce-migration-tool
    ```
 
-3. **Deploy to Captain:**
-   - Push your code to the repository
-   - Captain will automatically detect the `captain-definition` file
-   - The deployment will use the Dockerfile to build and run the application
+3. **Deploy to CapRover:**
+   - Push your code to the main branch
+   - GitHub Actions will automatically trigger the deployment workflow
+   - The workflow will build the project and deploy to CapRover using the CapRover CLI
 
 ## Configuration
 
 Before deployment, ensure you have:
 
-1. **Environment Variables:** Set the required environment variables in your deployment platform
-2. **API Endpoints:** Update the API base URL to point to your production backend
-3. **S3 Configuration:** Configure S3 bucket URL if file uploads are needed
-4. **Stripe Keys:** Set up Stripe public key if payment functionality is required
+1. **GitHub Secrets:** Set up the following secrets in your GitHub repository:
+   - `CAPROVER_SERVER`: Your CapRover server URL
+   - `CAPROVER_PASSWORD`: Your CapRover password
+   - `CAPROVER_APP`: Your CapRover app name
+
+2. **Environment Variables:** Set the required environment variables in your CapRover app:
+   - `NEXT_PUBLIC_API_BASE_URL`: Base URL for API calls
+   - `NEXT_PUBLIC_S3_BUCKET_URL`: S3 bucket URL for file uploads
+   - `NEXT_PUBLIC_STRIPE_PUBLIC_KEY`: Stripe public key for payments
+
+3. **API Endpoints:** Update the API base URL to point to your production backend
+4. **S3 Configuration:** Configure S3 bucket URL if file uploads are needed
+5. **Stripe Keys:** Set up Stripe public key if payment functionality is required
 
 ## Differences from Aigumind Website
 
